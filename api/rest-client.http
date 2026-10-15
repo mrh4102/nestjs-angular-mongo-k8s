@@ -1,0 +1,35 @@
+###
+
+GET http://localhost:3000/diary
+
+###
+
+POST http://localhost:3000/diary
+Content-Type: application/json
+
+{
+  "title": "A Quiet Evening",
+  "content": "Tonight, I just want to slow down and enjoy the silence",
+  "mood": "calm"
+}
+
+###
+
+GET http://localhost:3000/diary/6ad074c9e7c9bae3fa1895f2
+
+###
+
+PATCH http://localhost:3000/diary/6ad074c9e7c9bae3fa1895f2
+Content-Type: application/json
+
+{
+  "title": "A Sunny Morning",
+  "content": "Today, I just want to chill out and enjoy the sunlight",
+  "mood": "lazy"
+}
+
+###
+
+DELETE http://localhost:3000/diary/6ad074c9e7c9bae3fa1895f2
+
+###
