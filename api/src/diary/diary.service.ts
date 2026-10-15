@@ -31,7 +31,7 @@ export class DiaryService {
   async update(id: string, dto: UpdateDiaryDto): Promise<Diary> {
     const entry = await this.diaryModel
       .findByIdAndUpdate(id, dto, {
-        new: true,
+        returnDocument: 'after',
         runValidators: true,
       })
       .exec();
