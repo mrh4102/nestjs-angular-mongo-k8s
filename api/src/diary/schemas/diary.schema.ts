@@ -5,13 +5,13 @@ export type DiaryDocument = HydratedDocument<Diary>;
 
 @Schema()
 export class Diary {
-  @Prop()
+  @Prop({ required: true })
   title: string;
 
-  @Prop()
+  @Prop({ required: true })
   content: string;
 
-  @Prop()
+  @Prop({ required: true })
   mood: string;
 }
 
