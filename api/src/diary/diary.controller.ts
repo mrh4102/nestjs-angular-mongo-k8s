@@ -6,6 +6,8 @@ import {
   Param,
   Patch,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { DiaryService } from './diary.service.js';
 import { CreateDiaryDto } from './dto/create-diary.dto.js';
@@ -13,6 +15,7 @@ import { UpdateDiaryDto } from './dto/update-diary.dto.js';
 import { Diary } from './schemas/diary.schema.js';
 
 @Controller('diary')
+@UsePipes(new ValidationPipe())
 export class DiaryController {
   constructor(private readonly diaryService: DiaryService) {}
 
