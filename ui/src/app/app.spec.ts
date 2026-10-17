@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-    })
-      .compileComponents();
+      providers: [provideRouter([])],
+    }).compileComponents();
   });
 
   it('should create the app', () => {
@@ -17,8 +18,8 @@ describe('App', () => {
 
   it('should render title', async () => {
     const fixture = TestBed.createComponent(App);
-    await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, ui');
+    const hostElement = fixture.nativeElement as HTMLElement;
+    const title = hostElement.querySelector('a');
+    expect(title?.textContent).toContain('Diary App');
   });
 });
