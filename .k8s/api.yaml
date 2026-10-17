@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: diaryapp-api-pod
+  labels:
+    name: diaryapp-api-pod
+spec:
+  containers:
+    - name: diaryapp-api
+      image: mrh4102/nestjs-angular-mongo-k8s-api:latest
+      env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: uri
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: diaryapp-api-service
+  labels:
+    name: diaryapp-api-service
+spec:
+  type: NodePort
+  ports:
+    - nodePort: 30081
+      port: 3000
+      targetPort: 3000
+  selector:
+    name: diaryapp-api-pod
