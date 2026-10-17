@@ -1,0 +1,15 @@
+FROM node:22-alpine AS build
+
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+
+FROM nginx:alpine AS production
+
+COPY --from=build /usr/src/app/dist/ui/browser /usr/share/nginx/html
+
+EXPOSE 80
+CMD [ "nginx", "-g", "daemon off;" ]
