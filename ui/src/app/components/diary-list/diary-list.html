@@ -1,0 +1,19 @@
+@let list = data();
+
+@if (list && list.length > 0) {
+  <ul class="mt-4" data-testid="diary-list">
+    @for (item of list; track item._id) {
+      <li
+        class="block mt-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-100"
+        (click)="handleItemClick(item)"
+      >
+        {{ item.title }}
+      </li>
+    }
+  </ul>
+} @else {
+  <div class="mt-4 p-8 text-center bg-gray-200 rounded-lg" data-testid="diary-empty">
+    <p class="text-xl font-semibold">No entries yet</p>
+    <p class="mt-2 text-sm text-gray-600">Start writing your diary today</p>
+  </div>
+}
