@@ -20,23 +20,7 @@
     }
 
     @case ('fetching_success') {
-      <ul class="mt-4" data-testid="diary-list">
-        @for (item of current.data; track item._id) {
-          <li>
-            <a
-              class="block mt-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-100"
-              [routerLink]="['/', item._id]"
-            >
-              {{ item.title }}
-            </a>
-          </li>
-        } @empty {
-          <li class="p-8 text-center bg-gray-200 rounded-lg" data-testid="diary-empty">
-            <p class="text-xl font-semibold">No entries yet</p>
-            <p class="mt-2 text-sm text-gray-600">Start writing your diary today</p>
-          </li>
-        }
-      </ul>
+      <app-diary-list [data]="current.data" (itemClicked)="handleItemClick($event)" />
     }
 
     @case ('fetching_failure') {

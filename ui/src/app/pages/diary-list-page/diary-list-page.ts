@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { DiaryList } from '../../components/diary-list/diary-list';
 import { Diary } from '../../models/diary';
 import { DiaryApi } from '../../services/diary-api';
 
@@ -11,13 +12,14 @@ type PageState<T> =
   | { status: 'fetching_failure'; error: string };
 
 @Component({
-  imports: [RouterLink],
+  imports: [RouterLink, DiaryList],
   selector: 'app-diary-list-page',
   styleUrl: './diary-list-page.css',
   templateUrl: './diary-list-page.html',
 })
 export class DiaryListPage implements OnInit {
   private readonly diaryApi = inject(DiaryApi);
+  private readonly router = inject(Router);
 
   readonly state = signal<PageState<Diary[]>>({ status: 'idle' });
 
@@ -48,5 +50,9 @@ export class DiaryListPage implements OnInit {
         });
       },
     });
+  }
+
+  handleItemClick(itemId: string) {
+    this.router.navigate(['/', itemId]);
   }
 }
