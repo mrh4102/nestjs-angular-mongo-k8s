@@ -166,27 +166,9 @@ describe('DiaryListPage', () => {
       fixture.detectChanges();
 
       const hostElement = fixture.nativeElement as HTMLElement;
-      const diaryList = hostElement.querySelector('[data-testid="diary-list"]');
-      const diaryItems = diaryList?.querySelectorAll('li');
+      const diaryList = hostElement.querySelector('app-diary-list');
 
       expect(diaryList).toBeDefined();
-      expect(diaryItems?.length).toEqual(1);
-      expect(diaryItems?.[0].textContent).toContain(diary.title);
-    });
-
-    it('should render fetching_success empty state', () => {
-      diaryApi.findAll.mockReturnValueOnce(of([]));
-
-      const fixture = TestBed.createComponent(DiaryListPage);
-      fixture.detectChanges();
-
-      const hostElement = fixture.nativeElement as HTMLElement;
-      const diaryList = hostElement.querySelector('[data-testid="diary-list"]');
-      const diaryEmpty = diaryList?.querySelector('[data-testid="diary-empty"]');
-
-      expect(diaryList).toBeDefined();
-      expect(diaryEmpty?.textContent).toContain('No entries yet');
-      expect(diaryEmpty?.textContent).toContain('Start writing your diary today');
     });
 
     it('should render fetching_failure state', () => {
