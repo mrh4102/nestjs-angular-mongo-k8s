@@ -1,10 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideStore } from '@ngrx/store';
 import { NEVER, of, throwError } from 'rxjs';
 import { Mocked } from 'vitest';
 import { Diary } from '../../models/diary';
 import { DiaryApi } from '../../services/diary-api';
+import { appReducer } from '../../state/app.reducer';
 import { DiaryListPage } from './diary-list-page';
 
 const mockDiaryApi = {
@@ -29,6 +31,7 @@ describe('DiaryListPage', () => {
       imports: [DiaryListPage],
       providers: [
         provideRouter([]),
+        provideStore(appReducer),
         {
           provide: DiaryApi,
           useValue: mockDiaryApi,
