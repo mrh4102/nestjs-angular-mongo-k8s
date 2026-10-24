@@ -1,15 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { DiaryList } from '../../components/diary-list/diary-list';
-import { Diary } from '../../models/diary';
-import { DiaryApi } from '../../services/diary-api';
-
-type PageState<T> =
-  | { status: 'idle' }
-  | { status: 'fetching' }
-  | { status: 'fetching_success'; data: T }
-  | { status: 'fetching_failure'; error: string };
+import { DiaryListActions } from '../../state/diary-list/diary-list.actions';
+import { selectDiaryListState } from '../../state/diary-list/diary-list.selectors';
 
 @Component({
   imports: [RouterLink, DiaryList],
@@ -18,38 +12,13 @@ type PageState<T> =
   templateUrl: './diary-list-page.html',
 })
 export class DiaryListPage implements OnInit {
-  private readonly diaryApi = inject(DiaryApi);
   private readonly router = inject(Router);
+  private readonly store = inject(Store);
 
-  readonly state = signal<PageState<Diary[]>>({ status: 'idle' });
+  readonly state = this.store.selectSignal(selectDiaryListState);
 
   ngOnInit(): void {
-    this.loadDiaryList();
-  }
-
-  loadDiaryList(): void {
-    const current = this.state();
-
-    if (current.status === 'fetching') {
-      return;
-    }
-
-    this.state.set({ status: 'fetching' });
-
-    this.diaryApi.findAll().subscribe({
-      next: (data: Diary[]) => {
-        this.state.set({
-          status: 'fetching_success',
-          data: data,
-        });
-      },
-      error: (e: HttpErrorResponse) => {
-        this.state.set({
-          status: 'fetching_failure',
-          error: e.error?.message ?? 'An error occurred, please try again',
-        });
-      },
-    });
+    this.store.dispatch(DiaryListActions.fetchingData());
   }
 
   handleItemClick(itemId: string) {
